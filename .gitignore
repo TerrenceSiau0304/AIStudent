@@ -1,0 +1,19 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Application data
+backend/data/chroma_persist/
+backend/data/docstore/
+backend/data/CourseMaterials
+
+# IDE
+.vscode/
+.idea/
