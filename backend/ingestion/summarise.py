@@ -1,8 +1,11 @@
 import pickle
-
+from pathlib import Path
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BACKEND_DIR/"data"
 
 def summarise_document(model: str = 'llama3.1', temperature: float = 0):
     llm = ChatOllama(model, max_retries=0, temperature=temperature)
@@ -17,11 +20,13 @@ def summarise_document(model: str = 'llama3.1', temperature: float = 0):
     )
 
 def save_summary(file: str, summaries: list):
-    with open(file, "wb") as f:
+    path = DATA_DIR/file
+    with open(path, "wb") as f:
         pickle.dump(summaries, f)
 
 
 def load_summary(file: str):
-    with open(file, "rb") as f:
+    path = DATA_DIR/file
+    with open(path, "rb") as f:
         results = pickle.load(f)
     return results

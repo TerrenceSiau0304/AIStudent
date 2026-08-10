@@ -1,9 +1,12 @@
 from langchain_core.documents import Document
 from unstructured.partition.pdf import partition_pdf
 from unstructured.staging.base import elements_to_json
+from pathlib import Path
 import os
 import pickle
 
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BACKEND_DIR/"data"
 
 def process_pdfs_recursively(root_folder, image_output_dir="pdfImage/"):
     """
@@ -59,12 +62,14 @@ def build_document(chunk: dict):
 
 
 def save_document(filename: str, documents: dict):
-    with open(filename, "wb") as f:
+    path = DATA_DIR / filename
+    with open(path, "wb") as f:
         pickle.dump(documents, f)
 
 
 def load_document(filename: str):
-    with open(filename, "rb") as f:
+    path = DATA_DIR / filename
+    with open(path, "rb") as f:
         results= pickle.load(f)
 
     return results
