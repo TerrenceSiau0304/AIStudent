@@ -31,7 +31,7 @@ class VectorStore:
         self.retriever.docstore.mset(list(zip(doc_ids, original_document)))
 
 
-#To be modified
+
 original_docs = load_document("result_dict.pkl")
 document_type_docs = build_document(original_docs)
 summaries = load_summary("summaries.pkl")

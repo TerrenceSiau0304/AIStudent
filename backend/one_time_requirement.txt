@@ -1,0 +1,8 @@
+langchain_google_community[drive] 
+unstructured[pdf]
+unstructured-inference
+pdf2image
+pytesseract
+pillow==10.4.0
+langchain_google_community
+langchain-ollama

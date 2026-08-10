@@ -1,0 +1,13 @@
+langchain
+langchain-core
+langchain_community
+langchain-classic
+langchain-google-genai
+langchain-huggingface
+langchain_cohere
+langchain-tavily
+langgraph
+chromadb
+sentence-transformers
+langsmith
+pydantic
