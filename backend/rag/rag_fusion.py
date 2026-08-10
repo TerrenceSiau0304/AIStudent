@@ -25,7 +25,6 @@ def reciprocal_rank_fusion(results: list[list], k=60):
             doc_str = dumps(doc)
             if doc_str not in fused_scores:
                 fused_scores[doc_str] = 0
-            previous_score = fused_scores[doc_str]
             fused_scores[doc_str] += 1/ (rank+1+k)
 
     ranked_results = [
