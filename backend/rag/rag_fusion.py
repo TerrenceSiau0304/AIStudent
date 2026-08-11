@@ -5,6 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from core.config import get_settings
 
+
 def generate_multiple_queries(model: str = "gemini-3.1-flash-lite", temperature: float = 0):
     rag_template =  """You are a helpful assistant that generates multiple search queries based on a single input query. \n
     Generate multiple search queries related to: {question} \n
@@ -39,7 +40,7 @@ def reciprocal_rank_fusion(results: list[list], k=60):
 def retrieval_rag_fusion(retriever):
 
     return (
-        generate_multiple_queries
+        generate_multiple_queries()
         | retriever.map()
         | reciprocal_rank_fusion
     )
