@@ -7,10 +7,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_classic.retrievers.multi_vector import MultiVectorRetriever
 
-
-
-BACKEND_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BACKEND_DIR/"data"
+from core.config import DATA_DIR
 
 
 class VectorStore:
