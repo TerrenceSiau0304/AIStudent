@@ -3,6 +3,8 @@ from langchain_core.load import dumps, loads
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
+from core.config import get_settings
+
 def generate_multiple_queries(model: str = "gemini-3.1-flash-lite", temperature: float = 0):
     rag_template =  """You are a helpful assistant that generates multiple search queries based on a single input query. \n
     Generate multiple search queries related to: {question} \n
@@ -11,7 +13,7 @@ def generate_multiple_queries(model: str = "gemini-3.1-flash-lite", temperature:
 
     return (
         prompt_rag_fusion
-        | ChatGoogleGenerativeAI(model=model, temperature=temperature)
+        | ChatGoogleGenerativeAI(model=model, temperature=temperature, google_api_key=get_settings().google_api_key)
         | StrOutputParser()
         | (lambda x: x.split("\n"))
     )
