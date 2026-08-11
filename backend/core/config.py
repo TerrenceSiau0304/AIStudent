@@ -1,12 +1,12 @@
-# backend/core/config.py
-
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BACKEND_DIR/"data"
 
 class Settings(BaseSettings):
-    # LLM / AI providers
     google_api_key: str
     cohere_api_key: str
     tavily_api_key: str
@@ -15,10 +15,10 @@ class Settings(BaseSettings):
     langchain_tracing: bool = False
     langchain_project: str = "AIStudent"
 
-    huggingfacehub_api_token: str | None = None
-
     chroma_persist_dir: str = "./data/chroma_persist"
     docstore_dir: str = "./data/docstore"
+
+    huggingfacehub_api_token: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=".env",
