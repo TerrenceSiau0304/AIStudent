@@ -12,7 +12,7 @@ class vectorstore(BaseModel):
     query: str = Field(description="The query to use when search the vectorstore.")
 
 
-def route_question(model:str="command-r", temperature:float = 0):
+def route_question_chain(model:str="command-r-plus-08-2024", temperature:float = 0):
     preamble = """You are an expert at routing a user question to a vectorstore or web search.
     The vectorstore contains documents related to basic knowledge about artificial intelligence 
     including topics like agent, searching algorithm, probability reasoning,
