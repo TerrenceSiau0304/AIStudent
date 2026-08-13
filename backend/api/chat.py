@@ -27,7 +27,7 @@ async def chat(request: Request, body: ChatRequest):
             ):
                 yield f"data: {json.dumps({'type': 'status', 'node': event['name']})}\n\n"
 
-            if kind == "on_chain_end" and event["name"] == "generate":
+            if kind == "on_chain_end" and (event["name"] == "generate" or event["name"] == "llm_fallback"):
                 output = event["data"]["output"]
                 yield f"data: {json.dumps({'type': 'answer', 'content': output.get('generation', '')})}\n\n"
 

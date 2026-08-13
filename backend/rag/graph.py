@@ -2,7 +2,7 @@ from typing import List
 from typing_extensions import TypedDict
 from langchain_core.documents import Document
 from langgraph.graph import END, StateGraph, START
-from langgraph.checkpoint.sqlite import SqliteSaver
+
 
 
 from rag.rag_fusion import retrieval_rag_fusion
