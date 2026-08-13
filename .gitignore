@@ -17,3 +17,8 @@ backend/data/CourseMaterials
 # IDE
 .vscode/
 .idea/
+
+# Credentials
+credentials/
+*.json
+!package.json
