@@ -22,3 +22,6 @@ backend/data/CourseMaterials
 credentials/
 *.json
 !package.json
+
+# Node modules
+node_modules/
