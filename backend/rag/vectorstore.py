@@ -13,8 +13,8 @@ from core.config import DATA_DIR
 class VectorStore:
     def __init__(self, collection_name: str, embedding_function=HuggingFaceEmbeddings(model_name="BAAI/bge-base-en-v1.5")):
         self.retriever = MultiVectorRetriever(
-            vectorstore=Chroma(collection_name=collection_name, embedding_function=embedding_function, persist_directory=DATA_DIR/"chroma_persist"),
-            byte_store=LocalFileStore(DATA_DIR/"docstore"),
+            vectorstore=Chroma(collection_name=collection_name, embedding_function=embedding_function, persist_directory=str(DATA_DIR/"chroma_persist")),
+            byte_store=LocalFileStore(str(DATA_DIR/"docstore")),
             id_key="doc_id"
         )
 
