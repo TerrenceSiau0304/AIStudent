@@ -12,3 +12,6 @@ chromadb
 sentence-transformers
 langsmith
 pydantic
+fastapi
+uvicorn
+aiosqlite
