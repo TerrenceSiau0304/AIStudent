@@ -12,8 +12,11 @@ class Settings(BaseSettings):
     tavily_api_key: str
 
     langsmith_api_key: str | None = None
-    langchain_tracing: bool = False
-    langchain_project: str = "AIStudent"
+    langsmith_tracing: bool = False
+    langsmith_project: str = "AIStudent"
+    langsmith_endpoint: str | None = None
+
+    google_application_credentials: str | None = None
 
     chroma_persist_dir: str = "./data/chroma_persist"
     docstore_dir: str = "./data/docstore"
