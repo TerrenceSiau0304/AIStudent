@@ -5,12 +5,12 @@ from langgraph.graph import END, StateGraph, START
 from langgraph.checkpoint.sqlite import SqliteSaver
 
 
-from rag_fusion import retrieval_rag_fusion
-from fallback import fallback
-from generation import generate_chain
-from graders import retrieval_grader, answer_grader, hallucination_grader
-from web_search import web_search_tool
-from routing import route_question
+from rag.rag_fusion import retrieval_rag_fusion
+from rag.fallback import fallback
+from rag.generation import generate_chain
+from rag.graders import retrieval_grader, answer_grader, hallucination_grader
+from rag.web_search import web_search_tool
+from rag.routing import route_question_chain
 from core.config import DATA_DIR
 
 
@@ -100,7 +100,7 @@ Edges
 def route_question(state):
     print("---Routing question...---")
     question = state["question"]
-    source = route_question().invoke({"question": question})
+    source = route_question_chain().invoke({"question": question})
 
     if "tool_calls" not in source.additional_kwargs:
         print("---Route question to fallback---")
@@ -163,7 +163,7 @@ def check_hallucination_and_utility(state):
 Build Graph
 """
 
-def build_graph(retriever):
+def build_graph(retriever, checkpointer):
     workflow = StateGraph(GraphState)
     workflow.add_node("web_search", web_search)
     retrival_node = make_retrieve_node(retriever)
@@ -205,9 +205,8 @@ def build_graph(retriever):
         },
     )
 
-    checkpointer = SqliteSaver.from_conn_string(str(DATA_DIR/"checkpoints.db"))
+ 
     return workflow.compile(checkpointer=checkpointer)
-
 
 
     
