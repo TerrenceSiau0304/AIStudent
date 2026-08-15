@@ -3,7 +3,7 @@ from pathlib import Path
 from langchain_core.documents import Document
 from langchain_core.stores import InMemoryByteStore
 # from langchain_classic.storage import LocalFileStore
-from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_classic.retrievers.multi_vector import MultiVectorRetriever
 
