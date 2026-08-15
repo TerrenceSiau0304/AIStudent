@@ -22,7 +22,6 @@ class Settings(BaseSettings):
     docstore_dir: str = "./data/docstore"
 
     huggingfacehub_api_token: str | None = None
-    database_url: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=".env",

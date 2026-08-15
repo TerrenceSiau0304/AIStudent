@@ -12,6 +12,8 @@ langsmith
 pydantic
 fastapi
 uvicorn
+sentence-transformers
+langchain-huggingface
 psycopg[binary,pool]
 langgraph-checkpoint-postgres
 unstructured
