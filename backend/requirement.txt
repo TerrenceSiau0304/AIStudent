@@ -4,7 +4,6 @@ langchain_community
 langchain-classic
 langgraph-checkpoint-sqlite
 langchain-google-genai
-langchain-huggingface
 langchain_cohere
 langchain-tavily
 langgraph

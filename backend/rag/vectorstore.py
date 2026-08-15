@@ -9,9 +9,12 @@ from langchain_classic.retrievers.multi_vector import MultiVectorRetriever
 
 # from core.config import DATA_DIR
 
+#pip install langchain-huggingface removed from requirement.txt for space, (HuggingFaceEmbeddings(model_name="BAAI/bge-base-en-v1.5"))
+
+
 
 class VectorStore:
-    def __init__(self, collection_name: str, embedding_function=HuggingFaceEmbeddings(model_name="BAAI/bge-base-en-v1.5")):
+    def __init__(self, collection_name: str, embedding_function=None):
         self.retriever = MultiVectorRetriever(
             vectorstore=Chroma(collection_name=collection_name,
                                 embedding_function=embedding_function,
