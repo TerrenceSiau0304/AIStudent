@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ChatMessage from "./components/ChatMessage.jsx";
 
-const API_URL = "http://127.0.0.1:8000/chat";
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/chat`;
 
 function getSessionId() {
   //Browser storage, data are remember when page refresh
