@@ -10,6 +10,7 @@ def build_vectorstore():
     ai_vectorstore = VectorStore("summaries")
     ai_vectorstore.setup_retriever(original_document=document_type_docs, summary=summaries)
     print("Vectorstore is built")
+    return ai_vectorstore
 
 
 
