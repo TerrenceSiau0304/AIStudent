@@ -16,4 +16,3 @@ sentence-transformers
 langchain-huggingface
 psycopg[binary,pool]
 langgraph-checkpoint-postgres
-unstructured
