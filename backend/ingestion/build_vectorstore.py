@@ -1,5 +1,5 @@
-from load_docs import build_document, load_document
-from summarise import load_summary
+from ingestion.load_docs import build_document, load_document
+from ingestion.summarise import load_summary
 
 from rag.vectorstore import VectorStore
 
