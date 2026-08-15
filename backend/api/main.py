@@ -17,6 +17,7 @@ async def lifespan(app: FastAPI):
     # retriever = get_retriever()
     vs = build_vectorstore()
     async with AsyncPostgresSaver.from_conn_string(str(get_settings().database_url)) as checkpointer:
+        await checkpointer.setup()
         app.state.graph = build_graph(vs.retriever, checkpointer)
         yield
 
