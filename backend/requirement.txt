@@ -16,3 +16,4 @@ fastapi
 uvicorn
 psycopg[binary,pool]
 langgraph-checkpoint-postgres
+unstructured
