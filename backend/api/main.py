@@ -25,7 +25,8 @@ app = FastAPI(title="StudentAI API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://ai-student-frontend.vercel.app"], 
+    allow_origins=["http://localhost:5173", "https://ai-student-frontend-theta.vercel.app",
+        "https://ai-student-frontend-git-main-terrencesiau0304s-projects.vercel.app",], 
     allow_methods=["*"],
     allow_headers=["*"],
 )
