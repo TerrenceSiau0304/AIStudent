@@ -47,7 +47,23 @@ DATA_DIR = BACKEND_DIR/"data"
 
 def build_document(chunk: dict):
     """
-    Change dictionary type data into Document type.
+    Convert dictionary-based document data into LangChain
+    Document objects.
+
+    The input dictionary is expected to contain file paths as
+    keys and collections of document elements as values. Each
+    element is converted into a Document object, with the
+    corresponding file path stored as metadata.
+
+    Args:
+        chunk (dict):
+            Dictionary containing document elements grouped by
+            their source file path.
+
+    Returns:
+        list[Document]:
+            A list of Document objects containing the document
+            content and its source file path.
     """
     docs = []
     for filepath, elements in chunk.items():
@@ -61,12 +77,40 @@ def build_document(chunk: dict):
 
 
 def save_document(filename: str, documents: dict):
+    """
+    Save document data to a pickle file.
+
+    The file is stored inside the application's configured
+    data directory.
+
+    Args:
+        filename (str):
+            Name of the file used to store the documents.
+
+        documents (dict):
+            Document data that will be serialized and saved.
+    """
     path = DATA_DIR / filename
     with open(path, "wb") as f:
         pickle.dump(documents, f)
 
 
 def load_document(filename: str):
+    """
+    Load document data from a pickle file.
+
+    The function reads a previously saved pickle file from
+    the application's data directory and deserializes its
+    contents back into a Python object.
+
+    Args:
+        filename (str):
+            Name of the pickle file containing the documents.
+
+    Returns:
+        Any:
+            The Python object stored in the pickle file.
+    """
     path = DATA_DIR / filename
     with open(path, "rb") as f:
         results= pickle.load(f)

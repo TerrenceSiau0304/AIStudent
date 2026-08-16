@@ -4,6 +4,7 @@ import ChatMessage from "./components/ChatMessage.jsx";
 const API_URL = `${import.meta.env.VITE_API_BASE_URL}/chat`;
 
 function getSessionId() {
+  //Get ID per session
   //Browser storage, data are remember when page refresh
   let id = localStorage.getItem("studentai_session_id"); 
   if (!id) {
@@ -13,7 +14,17 @@ function getSessionId() {
   return id;
 }
 
+/** 
+* Main application component for StudentAI.
+* Responsible for: * - Managing chat messages and user input. 
+* - Maintaining the current chat session ID. 
+* - Sending questions to the backend API. 
+* - Receiving and processing Server-Sent Event (SSE) responses. 
+* - Updating the assistant message as backend events arrive. * 
+* - Automatically scrolling to the latest message. 
+* - Handling Enter-key submission. */
 export default function App() {
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -26,16 +37,17 @@ export default function App() {
 
   async function sendMessage() {
     const text = input.trim();
-    if (!text || busy) return;
+    if (!text || busy) return; //Do not interupt once message is being proccessed
 
     setInput("");
     setBusy(true);
 
     const userMsg = { role: "user", content: text };
-    // placeholder assistant message we'll fill in as events arrive
+    // placeholder assistant message, fill in as events arrive
     const assistantMsg = { role: "assistant", status: null, content: "", streaming: true, error: null };
     setMessages((prev) => [...prev, userMsg, assistantMsg]);
 
+    //add in message to the list 
     const updateAssistant = (patch) => {
       setMessages((prev) => {
         const next = [...prev];
@@ -57,6 +69,7 @@ export default function App() {
       }
 
       const reader = response.body.getReader();
+      //Use to decode the bits to readable text
       const decoder = new TextDecoder();
       let buffer = "";
 
@@ -70,14 +83,17 @@ export default function App() {
 
         for (const part of parts) {
           const line = part.trim();
+          //Only focus on information starting with "data:"
           if (!line.startsWith("data:")) continue;
           const payload = line.slice(5).trim();
 
+          //Stop the caret once done
           if (payload === "[DONE]") {
             updateAssistant({ streaming: false });
             continue;
           }
 
+          //Get the information and update accordingly
           try {
             const event = JSON.parse(payload);
             if (event.type === "status") {
@@ -99,6 +115,7 @@ export default function App() {
     }
   }
 
+  //Send message when enter key is pushed but without shift
   function handleKeyDown(e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();

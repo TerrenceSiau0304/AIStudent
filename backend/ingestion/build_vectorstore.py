@@ -5,6 +5,25 @@ from langchain_cohere import CohereEmbeddings
 from rag.vectorstore import VectorStore
 from core.config import get_settings
 def build_vectorstore():
+    """
+    Build and configure the vector store used by the StudentAI
+    retrieval system.
+
+    The function loads the processed documents and their summaries,
+    creates a vector store using Cohere's online embedding model,
+    and configures the retriever with both the original documents
+    and their summaries.
+
+    Cohere's online embedding service is used instead of loading
+    a local embedding model. This helps reduce RAM consumption
+    when deploying the application on resource-limited platforms
+    such as Render.com.
+
+    Returns:
+        VectorStore:
+            A fully configured vector store containing the document
+            embeddings and retriever configuration.
+    """
     original_docs = load_document("result_dict.pkl")
     document_type_docs = build_document(original_docs)
     summaries = load_summary("summaries.pkl")

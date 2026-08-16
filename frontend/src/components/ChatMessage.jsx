@@ -7,6 +7,10 @@ const STATUS_LABELS = {
 };
 
 export default function ChatMessage({ message }) {
+    /**
+   * Render each user and assistant messages component.
+   *
+   */
   if (message.role === "user") {
     return (
       <div className="msg-row user">
