@@ -13,6 +13,9 @@ venv/
 backend/data/chroma_persist/
 backend/data/docstore/
 backend/data/CourseMaterials
+backend/data/checkpoints
+backend/data/checkpoints-shm
+backend/data/checkpoints-wal
 
 # IDE
 .vscode/
