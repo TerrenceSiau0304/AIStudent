@@ -1,3 +1,6 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
 const STATUS_LABELS = {
   retrieve: "Pulling notes from the shelf…",
   web_search: "Stepping out to the library…",
@@ -34,7 +37,9 @@ export default function ChatMessage({ message }) {
 
         {message.content && (
           <div className="answer-text">
-            {message.content}
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {message.content}
+            </ReactMarkdown>
             {message.streaming && <span className="caret" />}
           </div>
         )}

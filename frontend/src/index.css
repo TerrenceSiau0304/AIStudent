@@ -240,18 +240,101 @@ textarea:focus-visible {
   font-size: 16.5px;
   line-height: 1.65;
   color: var(--chalk);
-  white-space: pre-wrap;
   animation: chalkIn 0.4s ease;
 }
 
+.answer-text > :first-child { margin-top: 0; }
+.answer-text > :last-child { margin-bottom: 0; }
+
+.answer-text p {
+  margin: 0 0 0.8em;
+}
+
+.answer-text strong {
+  font-weight: 700;
+  color: var(--highlighter);
+}
+
+.answer-text em {
+  font-style: italic;
+}
+
+.answer-text h1,
+.answer-text h2,
+.answer-text h3 {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  color: var(--chalk);
+  line-height: 1.2;
+  margin: 1em 0 0.4em;
+}
+.answer-text h1 { font-size: 28px; }
+.answer-text h2 { font-size: 24px; }
+.answer-text h3 { font-size: 21px; }
+
+.answer-text ul,
+.answer-text ol {
+  margin: 0 0 0.8em;
+  padding-left: 1.4em;
+}
+.answer-text li {
+  margin-bottom: 0.3em;
+}
+.answer-text li::marker {
+  color: var(--chalk-dim);
+}
+
+.answer-text code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.88em;
+  background: rgba(242, 239, 227, 0.1);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+.answer-text pre {
+  overflow-x: auto;
+  background: var(--board-dark);
+  border: 1px solid rgba(242, 239, 227, 0.15);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 0 0 0.8em;
+}
+.answer-text pre code {
+  background: none;
+  padding: 0;
+}
+
+.answer-text a {
+  color: var(--highlighter);
+  text-underline-offset: 3px;
+}
+
+.answer-text blockquote {
+  margin: 0 0 0.8em;
+  padding-left: 12px;
+  border-left: 3px solid var(--chalk-dim);
+  color: var(--chalk-dim);
+}
+
+.answer-text table {
+  border-collapse: collapse;
+  margin: 0 0 0.8em;
+  font-size: 0.92em;
+}
+.answer-text th,
+.answer-text td {
+  border: 1px solid rgba(242, 239, 227, 0.25);
+  padding: 6px 10px;
+  text-align: left;
+}
+.answer-text th {
+  background: rgba(242, 239, 227, 0.08);
+}
+
 .answer-text .caret {
-  display: inline-block;
-  width: 8px;
-  height: 15px;
-  background: var(--highlighter);
-  margin-left: 2px;
-  vertical-align: text-bottom;
-  animation: blink 1s step-start infinite;
+  display: block;
+  margin: 4px 0 0;
 }
 
 @keyframes chalkIn {
