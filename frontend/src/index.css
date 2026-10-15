@@ -57,20 +57,142 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 16px;
+  padding: 24px 16px;
+}
+
+.chat-layout {
+  display: flex;
+  width: min(1120px, 100%);
+  height: min(860px, calc(100vh - 48px));
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+}
+
+.chat-sidebar {
+  width: 248px;
+  flex: 0 0 248px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 14px;
+  background: #12231c;
+  border-right: 1px solid rgba(242, 239, 227, 0.1);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-brand {
+  padding: 0 8px;
+  font-family: var(--font-hand);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--chalk);
+}
+
+.new-chat-button,
+.session-button {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(242, 239, 227, 0.16);
+  border-radius: 8px;
+  color: var(--chalk);
+  background: transparent;
+  font: 500 13px var(--font-ui);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.new-chat-button {
+  padding: 0 11px;
+  border-color: rgba(232, 197, 71, 0.55);
+  color: var(--highlighter);
+}
+
+.new-chat-button > span:first-child {
+  font-size: 21px;
+  line-height: 1;
+}
+
+.new-chat-button:hover:not(:disabled),
+.session-button:hover:not(:disabled),
+.session-button.active {
+  background: rgba(242, 239, 227, 0.09);
+}
+
+.new-chat-button:disabled,
+.session-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.session-list-label {
+  padding: 0 8px;
+  color: var(--chalk-dim);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.session-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.session-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.session-list::-webkit-scrollbar-thumb {
+  background: rgba(242, 239, 227, 0.15);
+  border-radius: 4px;
+}
+
+.session-button {
+  width: 100%;
+  min-width: 0;
+  padding: 0 10px;
+  border-color: transparent;
+  color: var(--chalk-dim);
+}
+
+.session-button.active {
+  border-color: rgba(242, 239, 227, 0.1);
+  color: var(--chalk);
+}
+
+.session-icon {
+  flex: 0 0 auto;
+  color: var(--highlighter);
+  font-size: 13px;
+}
+
+.session-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .board {
   width: 100%;
-  max-width: 760px;
-  height: min(860px, calc(100vh - 64px));
+  min-width: 0;
   background: var(--board);
-  border-radius: 6px;
   border: 10px solid #4a3323;
   border-image: linear-gradient(155deg, #6b4a30, #3a2818) 1;
-  box-shadow:
-    0 30px 60px -20px rgba(0, 0, 0, 0.6),
-    inset 0 0 120px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -412,12 +534,66 @@ textarea:focus-visible {
 }
 
 @media (max-width: 520px) {
+  .app-frame {
+    padding: 8px;
+  }
+  .chat-layout {
+    height: calc(100vh - 16px);
+  }
+  .chat-sidebar {
+    width: 60px;
+    flex-basis: 60px;
+    align-items: center;
+    padding: 12px 6px;
+    gap: 12px;
+  }
+  .sidebar-heading {
+    align-items: center;
+    gap: 12px;
+  }
+  .sidebar-brand {
+    padding: 0;
+    font-size: 0;
+  }
+  .sidebar-brand::first-letter {
+    font-size: 24px;
+  }
+  .new-chat-button {
+    width: 42px;
+    justify-content: center;
+    padding: 0;
+  }
+  .new-chat-label,
+  .session-list-label,
+  .session-title {
+    display: none;
+  }
+  .session-list {
+    width: 100%;
+    align-items: center;
+  }
+  .session-button {
+    width: 42px;
+    justify-content: center;
+    padding: 0;
+  }
   .board {
-    height: calc(100vh - 32px);
     border-width: 6px;
+  }
+  .board-header {
+    padding: 16px 14px 12px;
   }
   .board-header h1 {
     font-size: 26px;
+  }
+  .board-body {
+    padding: 18px 14px;
+  }
+  .board-tray {
+    padding: 12px;
+  }
+  .board-tray button {
+    padding: 0 14px;
   }
   .msg-user,
   .msg-assistant {
