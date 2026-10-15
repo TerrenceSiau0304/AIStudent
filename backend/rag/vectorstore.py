@@ -89,3 +89,4 @@ class VectorStore:
 
         self.retriever.vectorstore.add_documents(summary_docs)
         self.retriever.docstore.mset(list(zip(doc_ids, original_document)))
+        #docstore: A high level document storage interface backed by low level bytestore

@@ -1,7 +1,9 @@
-from typing import List
+from typing import List, Annotated
 from typing_extensions import TypedDict
 from langchain_core.documents import Document
+from langchain_core.messages import BaseMessage
 from langgraph.graph import END, StateGraph, START
+from langgraph.graph.message import add_messages
 
 
 
@@ -40,6 +42,11 @@ class GraphState(TypedDict):
     question: str
     generation: str
     documents: List[str]
+    messages: Annotated[List[BaseMessage], add_messages]
+
+    relevance_cycle: int = 0
+    hallucination_cycle: int = 0
+    answered_cycle: int = 0
 
 """
 ====================================================
@@ -91,7 +98,7 @@ def llm_fallback(state):
     print("---Fallback...---")
     question = state["question"]
     generation = fallback().invoke({"question": question})
-    return {"question": question, "generation": generation}
+    return {"generation": generation, "messages": [generation]}
 
 def generate(state):
     """
@@ -119,7 +126,7 @@ def generate(state):
         documents = [documents]
         
     generated_output = generate_chain().invoke({"question": question, "documents": documents})
-    return {"question": question, "generation": generated_output, "documents": documents}
+    return {"generation": generated_output, "messages": [generated_output]}
 
 
 def grade_documents(state):
@@ -160,7 +167,7 @@ def grade_documents(state):
         else:
             print("---GRADE: Document not relevant---")
             continue
-    return {"documents": filtered_docs, "question": question}
+    return {"documents": filtered_docs}
 
 def web_search(state):
     """
@@ -197,7 +204,7 @@ def web_search(state):
                         })
         web_search_doc.append(doc)
         
-    return { "documents": web_search_doc, "question": question}
+    return { "documents": web_search_doc}
 
 
 """
@@ -274,12 +281,13 @@ def decide_to_generate(state):
     """
     print("---Decide to generate---")
     filtered_documents = state["documents"]
+    relevance_cycle = state.get("relevance_cycle", 0)
 
-    if not filtered_documents:
+    if not filtered_documents and relevance_cycle < 3:
         print("---No related document, do web search---")
+        state["relevance_cycle"] = relevance_cycle + 1
         return "web_search"
     else:
-
         print("---Document related, generate---")
         return "generate"
 
@@ -321,24 +329,31 @@ def check_hallucination_and_utility(state):
     question = state["question"]
     document = state["documents"]
     generation = state["generation"]
+    hallucination_cycle = state.get("hallucination_cycle", 0)
+    answered_cycle = state.get("answered_cycle", 0)
 
     check_hallucination = hallucination_grader().invoke({"document": document, "generation": generation})
     is_grounded = check_hallucination.is_grounded
 
-    if is_grounded == "yes":
+    if is_grounded == "no" and hallucination_cycle < 5:
+        print("---Generation is not grounded in documents, regeneration---")
+        state["hallucination_cycle"] = hallucination_cycle + 1
+        return "not supported"
+    else:
         print("---Generation is grounded---")
         print("---Check utility---")
         check_utility = answer_grader().invoke({"question": question, "generation": generation})
         has_answered = check_utility.has_answered
-        if has_answered == "yes":
+        if has_answered == "no" and answered_cycle < 5:
+            print("---Generation does not answer question, web search---")
+            state["answered_cycle"] = answered_cycle + 1
+            return "not useful"
+        else:
             print("---Generation addresses question---")
             return "useful"
-        else:
-            print("---Generation not useful, web search again---")
-            return "not useful"
-    else:
-        print("---Generation is not grounded in documents, regeneration---")
-        return "not supported"
+
+
+        
 
 """
 =====================================================================

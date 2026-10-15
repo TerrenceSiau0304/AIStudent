@@ -2,6 +2,7 @@ import json
 from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from langchain_core.messages import HumanMessage
 
 router = APIRouter()
 
@@ -73,7 +74,7 @@ async def chat(request: Request, body: ChatRequest):
            when the `generate` or `llm_fallback` node finishes.
         """
         async for event in graph.astream_events(
-            {"question": body.message},
+            {"question": body.message, "messages": [HumanMessage(content=body.message)]},
             config=config,
             version="v2",
         ):
