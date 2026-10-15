@@ -47,9 +47,9 @@ async def lifespan(app: FastAPI):
 
 # Create the FastAPI application instance.
 #
-# The lifespan handler is registered here so that the
-# vector store, database checkpointer, and LangGraph are
-# initialized when the application starts.
+# The lifespan handler is registered here to tell
+# FastAPI the function that manages the application's startup and shutdown events.
+# No () means that the function is passed as a reference, not executed immediately.
 app = FastAPI(title="StudentAI API", lifespan=lifespan)
 
 # CORS allows the StudentAI frontend applications to send
