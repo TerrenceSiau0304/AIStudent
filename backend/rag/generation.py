@@ -30,8 +30,11 @@ def generate_chain(model: str="gemini-3.1-flash-lite", temperature: float=0):
             documents and a question, then returns the generated
             answer as a string.
     """
-    generation_template="""You are an assistant for question-answering tasks. Use the following pieces of retrieved documents to answer the question.
+    generation_template="""You are an assistant for question-answering tasks. Use the following pieces of retrieved documents and 
+    context to answer the question.
     Cite the given answer based on the metadata of documents.\n\n
+
+    context: {messages}/n
 
     documents: {documents} /n
 
@@ -44,7 +47,8 @@ def generate_chain(model: str="gemini-3.1-flash-lite", temperature: float=0):
 
     return (
         {"documents": itemgetter("documents"),
-         "question": itemgetter("question")}
+         "question": itemgetter("question"),
+         "messages": itemgetter("messages")}
          | generation_prompt
          | generative_llm
          | StrOutputParser()

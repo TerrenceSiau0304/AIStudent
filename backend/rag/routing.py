@@ -62,7 +62,8 @@ def route_question_chain(model:str="command-r-plus-08-2024", temperature:float =
             and returns a tool call indicating the selected
             information source.
     """
-    preamble = """You are an expert at routing a user question to a vectorstore or web search.
+    preamble = """You are an expert at routing a user question to a vectorstore or web search, 
+    do not use tools if the question is not related academic topics. 
     The vectorstore contains documents related to basic knowledge about artificial intelligence 
     including topics like agent, searching algorithm, probability reasoning,
     propositional logic, Markov Decision Processes, reinforce learning, machine learning, neural network
@@ -72,6 +73,7 @@ def route_question_chain(model:str="command-r-plus-08-2024", temperature:float =
     route_prompt = ChatPromptTemplate.from_messages(
         [
             ("human", "{question}"),
+            ("human", "Context: {messages}"),
         ]
     )
 

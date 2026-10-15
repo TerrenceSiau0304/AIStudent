@@ -34,7 +34,7 @@ def generate_multiple_queries(model: str = "gemini-3.1-flash-lite", temperature:
     """
 
     rag_template =  """You are a helpful assistant that generates multiple search queries based on a single input query. \n
-    Generate multiple search queries related to: {question} \n
+    Generate multiple search queries related to: {question} and refer to the context only when necessary: {messages} \n
     Output (4 queries):"""
     prompt_rag_fusion = ChatPromptTemplate.from_template(rag_template)
 

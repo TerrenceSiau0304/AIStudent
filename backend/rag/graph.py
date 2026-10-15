@@ -1,7 +1,7 @@
 from typing import List, Annotated
 from typing_extensions import TypedDict
 from langchain_core.documents import Document
-from langchain_core.messages import BaseMessage
+from langchain_core.messages import BaseMessage, AIMessage
 from langgraph.graph import END, StateGraph, START
 from langgraph.graph.message import add_messages
 
@@ -72,7 +72,8 @@ def make_retrieve_node(retriever):
         """
         print("---Retrieving...---")
         question = state["question"]
-        documents = retrieval_chain.invoke({"question": question})
+        messages = state.get("messages", [])
+        documents = retrieval_chain.invoke({"question": question, "messages": messages})
         return {"documents": documents, "question": question}
 
     return retrieve
@@ -97,8 +98,9 @@ def llm_fallback(state):
     """
     print("---Fallback...---")
     question = state["question"]
-    generation = fallback().invoke({"question": question})
-    return {"generation": generation, "messages": [generation]}
+    messages = state.get("messages", [])
+    generation = fallback().invoke({"question": question, "messages": messages})
+    return {"generation": generation, "messages": [AIMessage(content=generation)]}
 
 def generate(state):
     """
@@ -122,11 +124,12 @@ def generate(state):
     print("---Generating...---")
     question = state["question"]
     documents = state["documents"]
+    messages = state.get("messages", [])
     if not isinstance(documents, list):
         documents = [documents]
         
-    generated_output = generate_chain().invoke({"question": question, "documents": documents})
-    return {"generation": generated_output, "messages": [generated_output]}
+    generated_output = generate_chain().invoke({"question": question, "documents": documents, "messages": messages})
+    return {"generation": generated_output, "messages": [AIMessage(content=generated_output)]}
 
 
 def grade_documents(state):
@@ -194,6 +197,7 @@ def web_search(state):
 
     print("---Web Searching...---")
     question = state["question"]
+    messages = state.get("messages", [])
 
     docs = web_search_tool.invoke({"query": question}) 
     web_search_doc = []
@@ -238,7 +242,8 @@ def route_question(state):
     """
     print("---Routing question...---")
     question = state["question"]
-    source = route_question_chain().invoke({"question": question})
+    messages = state.get("messages", [])
+    source = route_question_chain().invoke({"question": question, "messages": messages})
 
     if "tool_calls" not in source.additional_kwargs:
         print("---Route question to fallback---")
